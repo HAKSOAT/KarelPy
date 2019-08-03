@@ -24,10 +24,9 @@ class World:
         self.wall_sprites = pygame.sprite.Group()
         self.karel_sprites = pygame.sprite.Group()
         # World attributes
-        self.width = self.dimension[0]
-        self.height = self.dimension[1]
+        self.width = 0
+        self.height = 0
         self.screen = None
-
 
     def parse_template(self):
         with open(self.template, "r") as template:
@@ -41,7 +40,7 @@ class World:
             if command[0] == "Dimension":
                 x = int(command[1]) * config.DIMENSION_UNIT
                 y = int(command[2]) * config.DIMENSION_UNIT
-                self.dimension = (x, y)
+                self.width, self.height = x, y
             elif command[0] == "Beeper":
                 x = int(command[1]) * config.DIMENSION_UNIT
                 y = int(command[2]) * config.DIMENSION_UNIT
@@ -67,12 +66,12 @@ class World:
                 self.speed = float(command[1])
 
     def create_dot_sprites(self):
-        x_axis = self.dimension[0] // config.DIMENSION_UNIT + 1
-        y_axis = self.dimension[1] // config.DIMENSION_UNIT + 1
+        x_axis = self.width // config.DIMENSION_UNIT + 1
+        y_axis = self.height // config.DIMENSION_UNIT + 1
         for horizontal in range(x_axis):
             for vertical in range(y_axis):
                 x = horizontal * config.DIMENSION_UNIT - config.DIMENSION_UNIT / 2
-                y = self.dimension[1] - (vertical * config.DIMENSION_UNIT - config.DIMENSION_UNIT / 2)
+                y = self.height - (vertical * config.DIMENSION_UNIT - config.DIMENSION_UNIT / 2)
                 center = x, y
                 self.dot_sprites.add(Dot(center))
 
@@ -80,7 +79,7 @@ class World:
         for location, quantity in self.beeper.items():
             for beeper in range(quantity):
                 x = location[0] - config.DIMENSION_UNIT/2
-                y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
+                y = self.height - (location[1] - config.DIMENSION_UNIT/2)
                 center = x, y
                 self.beeper_sprites.add(Beeper(center))
 
@@ -89,19 +88,19 @@ class World:
             for direction in directions:
                 if direction == config.DIRECTION_MAP["North"]:
                     x = location[0] - config.DIMENSION_UNIT / 2
-                    y = self.dimension[1] - location[1]
+                    y = self.height - location[1]
                     orientation = "h"
                 elif direction == config.DIRECTION_MAP["South"]:
                     x = location[0] - config.DIMENSION_UNIT / 2
-                    y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT)
+                    y = self.height - (location[1] - config.DIMENSION_UNIT)
                     orientation = "h"
                 elif direction == config.DIRECTION_MAP["East"]:
                     x = location[0]
-                    y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT / 2)
+                    y = self.height - (location[1] - config.DIMENSION_UNIT / 2)
                     orientation = "v"
                 elif direction == config.DIRECTION_MAP["West"]:
                     x = location[0] - config.DIMENSION_UNIT
-                    y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT / 2)
+                    y = self.height - (location[1] - config.DIMENSION_UNIT / 2)
                     orientation = "v"
                 center = x, y
                 self.wall_sprites.add(Wall(center, orientation))
@@ -109,7 +108,7 @@ class World:
     def create_karel_sprites(self):
         for location, direction in self.karel.items():
             x = location[0] - config.DIMENSION_UNIT/2
-            y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
+            y = self.height - (location[1] - config.DIMENSION_UNIT/2)
             center = x, y
             self.karel_sprites.add(Karel(center, direction))
 
@@ -117,7 +116,7 @@ class World:
         pygame.init()
         pygame.mixer.init()
         pygame.display.set_caption("Karel Learns Python")
-        self.screen = pygame.display.set_mode((self.width, self.height), flags=pygame.RESIZABLE)
+        self.screen = pygame.display.set_mode((self.width, self.height))
         self.create_dot_sprites()
         self.create_wall_sprites()
         self.create_karel_sprites()
@@ -142,13 +141,12 @@ class World:
                 if event.type == pygame.QUIT:
                     running = False
 
-    # def close(self):
-    #     pygame.display.set_mode()
-    #     running = True
-    #     while running:
-    #         for event in pygame.event.get():
-    #             if event.type == pygame.QUIT:
-    #                 running = False
+    def wait(self):
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
 
 
 world = World("world/unitednations.w")
@@ -156,6 +154,7 @@ world.parse_template()
 world.build()
 real_karel = world.real_karel
 display = world.display
+wait = world.wait
 
 
 
