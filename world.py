@@ -11,12 +11,23 @@ class World:
     def __init__(self, template):
         self.template = template
         self.dimension = (0, 0)
+        # Values from parsing template
         self.beeper = {}
         self.karel = {}
         self.beeper_bag = None
         self.wall = {}
         self.speed = 1.00
+        # Sprites
         self.real_karel = None
+        self.dot_sprites = pygame.sprite.Group()
+        self.beeper_sprites = pygame.sprite.Group()
+        self.wall_sprites = pygame.sprite.Group()
+        self.karel_sprites = pygame.sprite.Group()
+        # World attributes
+        self.width = self.dimension[0]
+        self.height = self.dimension[1]
+        self.screen = None
+
 
     def parse_template(self):
         with open(self.template, "r") as template:
@@ -55,25 +66,7 @@ class World:
             elif command[0] == "Speed":
                 self.speed = float(command[1])
 
-    def create(self):
-        pygame.init()
-        pygame.mixer.init()
-        width = self.dimension[0]
-        height = self.dimension[1]
-        screen = pygame.display.set_mode((width, height))
-        pygame.display.set_caption("Karel Learns Python")
-
-        beeper_sprites = pygame.sprite.Group()
-        dot_sprites = pygame.sprite.Group()
-        wall_sprites = pygame.sprite.Group()
-        karel_sprite = pygame.sprite.Group()
-        for location, quantity in self.beeper.items():
-            for beeper in range(quantity):
-                x = location[0] - config.DIMENSION_UNIT/2
-                y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
-                center = x, y
-                beeper_sprites.add(Beeper(center))
-
+    def create_dot_sprites(self):
         x_axis = self.dimension[0] // config.DIMENSION_UNIT + 1
         y_axis = self.dimension[1] // config.DIMENSION_UNIT + 1
         for horizontal in range(x_axis):
@@ -81,14 +74,17 @@ class World:
                 x = horizontal * config.DIMENSION_UNIT - config.DIMENSION_UNIT / 2
                 y = self.dimension[1] - (vertical * config.DIMENSION_UNIT - config.DIMENSION_UNIT / 2)
                 center = x, y
-                dot_sprites.add(Dot(center))
+                self.dot_sprites.add(Dot(center))
 
-        for location, direction in self.karel.items():
-            x = location[0] - config.DIMENSION_UNIT/2
-            y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
-            center = x, y
-            karel_sprite.add(Karel(center, direction))
+    def create_beeper_sprites(self):
+        for location, quantity in self.beeper.items():
+            for beeper in range(quantity):
+                x = location[0] - config.DIMENSION_UNIT/2
+                y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
+                center = x, y
+                self.beeper_sprites.add(Beeper(center))
 
+    def create_wall_sprites(self):
         for location, directions in self.wall.items():
             for direction in directions:
                 if direction == config.DIRECTION_MAP["North"]:
@@ -108,13 +104,46 @@ class World:
                     y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT / 2)
                     orientation = "v"
                 center = x, y
-                wall_sprites.add(Wall(center, orientation))
-        self.real_karel = KarelInterface(karel_sprite, beeper_sprites, wall_sprites,
-                                         dot_sprites, screen, self.speed)
-        # self.close()
+                self.wall_sprites.add(Wall(center, orientation))
+
+    def create_karel_sprites(self):
+        for location, direction in self.karel.items():
+            x = location[0] - config.DIMENSION_UNIT/2
+            y = self.dimension[1] - (location[1] - config.DIMENSION_UNIT/2)
+            center = x, y
+            self.karel_sprites.add(Karel(center, direction))
+
+    def build(self):
+        pygame.init()
+        pygame.mixer.init()
+        pygame.display.set_caption("Karel Learns Python")
+        self.screen = pygame.display.set_mode((self.width, self.height), flags=pygame.RESIZABLE)
+        self.create_dot_sprites()
+        self.create_wall_sprites()
+        self.create_karel_sprites()
+        self.create_beeper_sprites()
+        self.real_karel = KarelInterface(self.karel_sprites, self.beeper_sprites, self.wall_sprites,
+                                         self.dot_sprites, self.screen, self.speed)
+
+    def display(self):
+        self.dot_sprites.update()
+        self.beeper_sprites.update()
+        self.wall_sprites.update()
+        self.karel_sprites.update()
+        self.screen.fill(config.WHITE)
+        self.dot_sprites.draw(self.screen)
+        self.beeper_sprites.draw(self.screen)
+        self.wall_sprites.draw(self.screen)
+        self.karel_sprites.draw(self.screen)
+        pygame.display.flip()
+        running = True
+        while running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
 
     # def close(self):
-    #     pygame.display.set_mode(flags=pygame.RESIZABLE)
+    #     pygame.display.set_mode()
     #     running = True
     #     while running:
     #         for event in pygame.event.get():
@@ -124,9 +153,9 @@ class World:
 
 world = World("world/unitednations.w")
 world.parse_template()
-world.create()
+world.build()
 real_karel = world.real_karel
-
+display = world.display
 
 
 
