@@ -13,7 +13,7 @@ class KarelInterface:
         self.speed = speed
         self.clock = pygame.time.Clock()
 
-    def updates_change(self):
+    def refresh(self):
         for i in range(3):
             self.clock.tick(config.FPS * self.speed)
             self.dot_sprites.update()
@@ -29,23 +29,23 @@ class KarelInterface:
 
     def move(self):
         self.karel.move(self.wall_sprites)
-        self.updates_change()
+        self.refresh()
 
     def turn_left(self):
         self.karel.turn_left()
-        self.updates_change()
+        self.refresh()
 
     def turn_right(self):
         self.karel.turn_right()
-        self.updates_change()
+        self.refresh()
 
     def pick_beeper(self):
         self.karel.pick_beeper(self.beeper_sprites)
-        self.updates_change()
+        self.refresh()
 
     def put_beeper(self):
         self.karel.put_beeper(self.beeper_sprites)
-        self.updates_change()
+        self.refresh()
 
     def beepers_present(self):
         return self.karel.beepers_present(self.beeper_sprites)

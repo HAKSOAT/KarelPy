@@ -67,30 +67,30 @@ class Karel(pygame.sprite.Sprite):
             break
 
     def __absolute_south_clear(self, wall_sprites):
-        next_center = self.rect.center[0], self.rect.center[1] + config.DIMENSION_UNIT
+        next_wall_center = self.rect.center[0], self.rect.center[1] + config.DIMENSION_UNIT // 2
         for wall in wall_sprites.sprites():
-            if next_center[1] == wall.rect.center[1]:
+            if next_wall_center[0] == wall.rect.center[0] and next_wall_center[1] == wall.rect.center[1]:
                 return False
         return True
 
     def __absolute_north_clear(self, wall_sprites):
-        next_center = self.rect.center[0], self.rect.center[1] - config.DIMENSION_UNIT
+        next_wall_center = self.rect.center[0], self.rect.center[1] - config.DIMENSION_UNIT // 2
         for wall in wall_sprites.sprites():
-            if next_center[1] == wall.rect.center[1]:
+            if next_wall_center[0] == wall.rect.center[0] and next_wall_center[1] == wall.rect.center[1]:
                 return False
         return True
 
     def __absolute_west_clear(self, wall_sprites):
-        next_center = self.rect.center[0] - config.DIMENSION_UNIT, self.rect.center[1]
+        next_wall_center = self.rect.center[0] - config.DIMENSION_UNIT // 2, self.rect.center[1]
         for wall in wall_sprites.sprites():
-            if next_center[0] == wall.rect.center[0]:
+            if next_wall_center[0] == wall.rect.center[0] and next_wall_center[1] == wall.rect.center[1]:
                 return False
         return True
 
     def __absolute_east_clear(self, wall_sprites):
-        next_center = self.rect.center[0] + config.DIMENSION_UNIT, self.rect.center[1]
+        next_wall_center = self.rect.center[0] + config.DIMENSION_UNIT // 2, self.rect.center[1]
         for wall in wall_sprites.sprites():
-            if next_center[0] == wall.rect.center[0]:
+            if next_wall_center[0] == wall.rect.center[0] and next_wall_center[1] == wall.rect.center[1]:
                 return False
         return True
 
