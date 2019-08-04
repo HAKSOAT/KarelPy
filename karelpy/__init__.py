@@ -7,3 +7,4 @@ real_karel = world.real_karel
 display = world.display
 wait = world.wait
 load = world.load
+close = world.close

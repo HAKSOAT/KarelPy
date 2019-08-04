@@ -122,7 +122,6 @@ class World:
 
     def build(self):
         pygame.init()
-        pygame.mixer.init()
         pygame.display.set_caption("Karel Learns Python")
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.create_dot_sprites()
@@ -151,6 +150,10 @@ class World:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+    def close(self):
+        pygame.display.quit()
+        pygame.quit()
 
 
 
