@@ -42,6 +42,11 @@ challenges to be worked on and users will need to:
 
 ...and many more.
 
+## Demo
+
+![Demo](demo.gif)
+
+
 ## Usage
 
 
