@@ -100,26 +100,6 @@ class Karel(pygame.sprite.Sprite):
         elif self.direction == config.DIRECTION_MAP["East"]:
             return self.__absolute_east_clear(wall_sprites)
 
-    def right_is_clear(self, wall_sprites):
-        if self.direction == config.DIRECTION_MAP["East"]:
-            return self.__absolute_south_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["West"]:
-            return self.__absolute_north_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["South"]:
-            return self.__absolute_west_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["North"]:
-            return self.__absolute_east_clear(wall_sprites)
-
-    def left_is_clear(self, wall_sprites):
-        if self.direction == config.DIRECTION_MAP["West"]:
-            return self.__absolute_south_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["East"]:
-            return self.__absolute_north_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["North"]:
-            return self.__absolute_west_clear(wall_sprites)
-        elif self.direction == config.DIRECTION_MAP["South"]:
-            return self.__absolute_east_clear(wall_sprites)
-
     def beepers_present(self, beeper_sprites):
         col = pygame.sprite.spritecollide(self, beeper_sprites, False)
         if col:

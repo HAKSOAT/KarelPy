@@ -52,12 +52,6 @@ class KarelInterface:
     def front_is_clear(self):
         return self.karel.front_is_clear(self.wall_sprites)
 
-    def left_is_clear(self):
-        return self.karel.left_is_clear(self.wall_sprites)
-
-    def right_is_clear(self):
-        return self.karel.right_is_clear(self.wall_sprites)
-
     def facing_north(self):
         return self.karel.facing_north()
 
