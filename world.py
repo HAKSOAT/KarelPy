@@ -8,7 +8,7 @@ import pygame
 
 
 class World:
-    def __init__(self, number=1):
+    def __init__(self, number="default"):
         self.template = config.WORLD_MAP[number]
         self.dimension = (0, 0)
         # Values from parsing template
