@@ -18,7 +18,7 @@ class World:
         self.wall = {}
         self.speed = 1.00
         # Sprites
-        self.real_karel = None
+        self.karel_interface = None
         self.dot_sprites = pygame.sprite.Group()
         self.beeper_sprites = pygame.sprite.Group()
         self.wall_sprites = pygame.sprite.Group()
@@ -128,7 +128,7 @@ class World:
         self.create_wall_sprites()
         self.create_karel_sprites()
         self.create_beeper_sprites()
-        self.real_karel = KarelInterface(self.karel_sprites, self.beeper_sprites, self.wall_sprites,
+        self.karel_interface = KarelInterface(self.karel_sprites, self.beeper_sprites, self.wall_sprites,
                                          self.dot_sprites, self.screen, self.speed)
 
     def display(self):
