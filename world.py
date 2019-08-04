@@ -8,8 +8,8 @@ import pygame
 
 
 class World:
-    def __init__(self, template):
-        self.template = template
+    def __init__(self, number=1):
+        self.template = config.WORLD_MAP[number]
         self.dimension = (0, 0)
         # Values from parsing template
         self.beeper = {}
@@ -27,6 +27,14 @@ class World:
         self.width = 0
         self.height = 0
         self.screen = None
+
+    def load(self, number):
+        try:
+            self.__init__(number)
+        except KeyError:
+            raise Exception("World doesn't exist")
+        self.parse_template()
+        self.build()
 
     def parse_template(self):
         with open(self.template, "r") as template:
@@ -125,10 +133,6 @@ class World:
                                          self.dot_sprites, self.screen, self.speed)
 
     def display(self):
-        self.dot_sprites.update()
-        self.beeper_sprites.update()
-        self.wall_sprites.update()
-        self.karel_sprites.update()
         self.screen.fill(config.WHITE)
         self.dot_sprites.draw(self.screen)
         self.beeper_sprites.draw(self.screen)
@@ -149,15 +153,13 @@ class World:
                     running = False
 
 
-world = World("world/unitednations.w")
+world = World()
 world.parse_template()
 world.build()
 real_karel = world.real_karel
 display = world.display
 wait = world.wait
-
-
-
+load = world.load
 
 
 
