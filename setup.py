@@ -1,6 +1,6 @@
 from setuptools import setup
 
-setup(name='karel',
+setup(name='karelpy',
       version='0.1',
       description='Popular educational coding robot',
       classifiers=[
