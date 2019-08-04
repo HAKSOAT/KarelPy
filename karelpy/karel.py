@@ -6,7 +6,7 @@ import pygame
 class Karel(pygame.sprite.Sprite):
     def __init__(self, center, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("world/karel.png").convert_alpha()
+        self.image = pygame.image.load("karelpy/world/karel.png").convert_alpha()
         self.image = pygame.transform.scale(self.image, (config.DIMENSION_UNIT, config.DIMENSION_UNIT))
         self.direction = direction
         self.center = center
