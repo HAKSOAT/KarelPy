@@ -1,16 +1,14 @@
 from karelpy.beeper import Beeper
 from karelpy.dot import Dot
 from karelpy.karel import Karel
-from karelpy.ikarel import KarelInterface
 from karelpy.wall import Wall
 from karelpy import config
 import pygame
 
 
 class World:
-    def __init__(self, number="default"):
-        self.template = config.WORLD_MAP[number]
-        self.dimension = (0, 0)
+    def __init__(self):
+        self.template = None
         # Values from parsing template
         self.beeper = {}
         self.karel = {}
@@ -18,7 +16,6 @@ class World:
         self.wall = {}
         self.speed = 1.00
         # Sprites
-        self.karel_interface = None
         self.dot_sprites = pygame.sprite.Group()
         self.beeper_sprites = pygame.sprite.Group()
         self.wall_sprites = pygame.sprite.Group()
@@ -30,7 +27,7 @@ class World:
 
     def load(self, number):
         try:
-            self.__init__(number)
+            self.template = config.WORLD_MAP[number]
         except KeyError:
             raise Exception("World doesn't exist")
         self.parse_template()
@@ -128,10 +125,10 @@ class World:
         self.create_wall_sprites()
         self.create_karel_sprites()
         self.create_beeper_sprites()
-        self.karel_interface = KarelInterface(self.karel_sprites, self.beeper_sprites, self.wall_sprites,
-                                         self.dot_sprites, self.screen, self.speed)
 
     def display(self):
+        if self.screen is None:
+            raise Exception("World is yet to be loaded.")
         self.screen.fill(config.WHITE)
         self.dot_sprites.draw(self.screen)
         self.beeper_sprites.draw(self.screen)
