@@ -46,10 +46,6 @@ class Karel(pygame.sprite.Sprite):
         self.direction = config.DIRECTION_MAP["West"] if self.direction == config.DIRECTION_MAP["North"] else self.direction - 1
         self.image = pygame.transform.rotate(self.image, 90)
 
-    def turn_right(self):
-        self.direction = config.DIRECTION_MAP["North"] if self.direction == config.DIRECTION_MAP["West"] else self.direction + 1
-        self.image = pygame.transform.rotate(self.image, -90)
-
     def pick_beeper(self, beeper_sprites):
         beepers = pygame.sprite.spritecollide(self, beeper_sprites, False)
         if len(beepers) == 0:
