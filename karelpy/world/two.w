@@ -9,4 +9,4 @@ Wall: (5, 1) North
 Wall: (6, 1) North
 Beeper: (2, 1) 1
 Karel: (1, 2) North
-Speed: 1.6
+Speed: 1.3
