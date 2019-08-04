@@ -1,5 +1,5 @@
+from karelpy import config
 import pygame
-import config
 
 
 class Beeper(pygame.sprite.Sprite):

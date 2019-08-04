@@ -1,5 +1,5 @@
-from beeper import Beeper
-import config
+from karelpy.beeper import Beeper
+from karelpy import config
 import pygame
 
 

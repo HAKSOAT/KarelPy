@@ -1,4 +1,4 @@
-import config
+from karelpy import config
 import pygame
 
 

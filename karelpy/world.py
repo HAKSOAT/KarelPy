@@ -1,9 +1,9 @@
-from beeper import Beeper
-from dot import Dot
-from karel import Karel
-from ikarel import KarelInterface
-from wall import Wall
-import config
+from karelpy.beeper import Beeper
+from karelpy.dot import Dot
+from karelpy.karel import Karel
+from karelpy.ikarel import KarelInterface
+from karelpy.wall import Wall
+from karelpy import config
 import pygame
 
 
@@ -151,15 +151,6 @@ class World:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-
-
-world = World()
-world.parse_template()
-world.build()
-real_karel = world.real_karel
-display = world.display
-wait = world.wait
-load = world.load
 
 
 
