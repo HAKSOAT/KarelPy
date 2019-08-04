@@ -1,17 +1,10 @@
 from setuptools import setup
 
-
-def readme():
-    with open('README.rst') as f:
-        return f.read()
-
-
 setup(name='karel',
       version='0.1',
       description='Popular educational coding robot',
-      long_description=readme(),
       classifiers=[
-            'License :: OSI Approved :: MIT License',
+            'License :: OSI Approved :: BSD License',
             'Development Status :: 3 - Alpha',
             'Programming Language :: Python :: 3.6',
             'Topic :: Education :: Computer Aided Instruction (CAI)'
