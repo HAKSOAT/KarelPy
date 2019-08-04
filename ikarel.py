@@ -35,10 +35,6 @@ class KarelInterface:
         self.karel.turn_left()
         self.refresh()
 
-    def turn_right(self):
-        self.karel.turn_right()
-        self.refresh()
-
     def pick_beeper(self):
         self.karel.pick_beeper(self.beeper_sprites)
         self.refresh()
