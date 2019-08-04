@@ -1,12 +1,15 @@
 from karelpy.beeper import Beeper
 from karelpy import config
+import os
 import pygame
 
 
 class Karel(pygame.sprite.Sprite):
     def __init__(self, center, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("karelpy/world/karel.png").convert_alpha()
+        base_dir = os.path.abspath(os.path.dirname(__file__))
+        karel_path = os.path.join(base_dir, "world", "karel.png")
+        self.image = pygame.image.load(karel_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (config.DIMENSION_UNIT, config.DIMENSION_UNIT))
         self.direction = direction
         self.center = center

@@ -3,6 +3,7 @@ from karelpy.dot import Dot
 from karelpy.karel import Karel
 from karelpy.wall import Wall
 from karelpy import config
+import os
 import pygame
 
 
@@ -27,7 +28,8 @@ class World:
 
     def load(self, number):
         try:
-            self.template = config.WORLD_MAP[number]
+            base_dir = os.path.abspath(os.path.dirname(__file__))
+            self.template = os.path.join(base_dir, config.WORLD_MAP[number])
         except KeyError:
             raise Exception("World doesn't exist")
         self.parse_template()
