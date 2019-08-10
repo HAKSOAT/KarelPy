@@ -91,6 +91,7 @@ class World:
                 self.beeper_sprites.add(Beeper(center))
 
     def create_wall_sprites(self):
+        # Create declared walls
         for location, directions in self.wall.items():
             for direction in directions:
                 if direction == config.DIRECTION_MAP["North"]:
@@ -111,6 +112,46 @@ class World:
                     orientation = "v"
                 center = x, y
                 self.wall_sprites.add(Wall(center, orientation))
+
+        # Create left border walls
+        for height in range(config.DIMENSION_UNIT,
+                            self.height + config.DIMENSION_UNIT,
+                            config.DIMENSION_UNIT):
+            x = 0
+            y = height - (config.DIMENSION_UNIT / 2)
+            orientation = "v"
+            center = x, y
+            self.wall_sprites.add(Wall(center, orientation))
+
+        # Create right border walls
+        for height in range(config.DIMENSION_UNIT,
+                            self.height + config.DIMENSION_UNIT,
+                            config.DIMENSION_UNIT):
+            x = self.width
+            y = height - (config.DIMENSION_UNIT / 2)
+            orientation = "v"
+            center = x, y
+            self.wall_sprites.add(Wall(center, orientation))
+
+        # Create top border walls
+        for width in range(config.DIMENSION_UNIT,
+                           self.width + config.DIMENSION_UNIT,
+                           config.DIMENSION_UNIT):
+            x = width - (config.DIMENSION_UNIT / 2)
+            y = 0
+            orientation = "h"
+            center = x, y
+            self.wall_sprites.add(Wall(center, orientation))
+
+        # Create bottom border walls
+        for width in range(config.DIMENSION_UNIT,
+                           self.width + config.DIMENSION_UNIT,
+                           config.DIMENSION_UNIT):
+            x = width - (config.DIMENSION_UNIT / 2)
+            y = self.height
+            orientation = "h"
+            center = x, y
+            self.wall_sprites.add(Wall(center, orientation))
 
     def create_karel_sprites(self):
         for location, direction in self.karel.items():
